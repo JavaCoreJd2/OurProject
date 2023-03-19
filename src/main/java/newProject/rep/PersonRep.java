@@ -12,8 +12,10 @@ public interface PersonRep {
     Person updatePerson(int id, Person person);
 //
     void createPerson(Person person);
-//
-//    void deletePerson(int id);
+
+    List<Person> searchByObject(Person person);
+
+    void deletePerson(int id);
 
     //Person findPersonById();
 }

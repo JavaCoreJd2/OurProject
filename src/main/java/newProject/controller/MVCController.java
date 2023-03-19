@@ -3,11 +3,17 @@ package newProject.controller;
 import newProject.entity.Person;
 import newProject.rep.PersonRep;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,24 +31,24 @@ public class MVCController {
 
     @Autowired
     PersonRep personRep;
-
-    // localhost:8080/p
-    @RequestMapping("/p")
-    public String printStr(){
-        System.out.println("Fofksfewofkeo");
-
-        return "hello";
-    }
-
-
-
-    //localhost:8080/pp/query
-    @RequestMapping("/pp/{query}")
-    public String newPrint(@PathVariable String query){
-        System.out.println(query);
-
-        return "hello";
-    }
+//
+//    // localhost:8080/p
+//    @RequestMapping("/p")
+//    public String printStr(){
+//        System.out.println("Fofksfewofkeo");
+//
+//        return "test";
+//    }
+//
+//
+//
+//    //localhost:8080/pp/query
+//    @RequestMapping("/pp/{query}")
+//    public String newPrint(@PathVariable String query){
+//        System.out.println(query);
+//
+//        return "test";
+//    }
 //
 //    @RequestMapping("/allpers")
 //    public ModelAndView getAllPersons(){
@@ -59,17 +65,72 @@ public class MVCController {
 //    }
 //
 
-// /person?id=1
-    @RequestMapping("/person")
-    public ModelAndView getOnePersonById(@RequestParam("id") int id){
-        System.out.println(personRep.findOne(id));
+// /all persons
 
-        ModelAndView modelAndView = new ModelAndView();
+    /**
+     * {}
+     *
+     *
+     * @return
+     */
 
-        modelAndView.addObject("person", personRep.findOne(id));
 
-        return modelAndView;
+    @RequestMapping(value ="/persons", method = RequestMethod.GET)
+    public ResponseEntity getPersons(){
+        List<Person> people = personRep.findAll();
+
+        ResponseEntity<Person> entity = new ResponseEntity(people, HttpStatus.OK);
+
+        return entity;
+        // "http://localhost:8080/persons - people"
     }
+
+    // "http://localhost:8080/persons - people"
+    // "http://localhost:8080/persons/1 - this person"
+    @GetMapping("/persons/{id}")
+    public ResponseEntity getOnePerson(@PathVariable Integer id){
+        Person person = personRep.findOne(id);
+
+        ResponseEntity<Person> entity = new ResponseEntity(person, HttpStatus.OK);
+
+        return entity;
+        // "http://localhost:8080/persons - people"
+    }
+
+    // contain in request body json object
+    @PostMapping("/persons")
+    public ResponseEntity createPerson(@RequestBody Person person){
+        personRep.createPerson(person);
+
+        return new ResponseEntity(person, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/persons/{id}")
+    public ResponseEntity deletePerson(@PathVariable Integer id){
+        Person person = personRep.findOne(id);
+
+        personRep.deletePerson(id);
+
+        return new ResponseEntity(person, HttpStatus.OK);
+        // "http://localhost:8080/persons - people"
+    }
+
+    /**
+     * {id:1, name:Name}
+     *
+     * @param person
+     * @return
+     */
+    @PutMapping("/persons")
+    public ResponseEntity updatePerson(@RequestBody Person person){
+        Person person1 = personRep.updatePerson(person.getId(), person);
+
+        return new ResponseEntity(person1, HttpStatus.OK);
+    }
+
+
+
+
 
 
 
@@ -82,6 +143,7 @@ public class MVCController {
         //System.out.println(person);
 
         personRep.createPerson(person);
+
 
         return new ModelAndView();
     }

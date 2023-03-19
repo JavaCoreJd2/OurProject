@@ -27,4 +27,14 @@ public class SecondRealisation implements PersonRep{
     public void createPerson(Person person) {
 
     }
+
+    @Override
+    public List<Person> searchByObject(Person person) {
+        return null;
+    }
+
+    @Override
+    public void deletePerson(int id) {
+
+    }
 }

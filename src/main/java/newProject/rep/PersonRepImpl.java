@@ -93,6 +93,25 @@ public class PersonRepImpl implements PersonRep{
 
     }
 
+    @Override
+    public List<Person> searchByObject(Person person) {
+        final String query = "select * from persons where " +
+                "name like '%" + person.getName() + "%'";
+
+        List<Person> result = new ArrayList<>();
+
+        result = template.query(query, personMapper);
+
+        return result;
+    }
+
+    @Override
+    public void deletePerson(int id) {
+        final String query = "delete from persons where id = " + id;
+
+        template.update(query);
+    }
+
 
 //    private Person parseResultSet(ResultSet rs) {
 //

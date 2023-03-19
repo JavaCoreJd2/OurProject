@@ -9,17 +9,11 @@ import org.springframework.context.support.GenericApplicationContext;
 public class Main {
     public static void main(String[] args) {
         GenericApplicationContext context = new AnnotationConfigApplicationContext("newProject");
-//
+
         PersonRep rep = context.getBean("personRepImpl", PersonRep.class);
 //
-        System.out.println(rep.findAll());
-
-        System.out.println(rep.findOne(1));
-
-//        System.out.println(rep.updatePerson(1, new Person("Serega")));
+//        Person person = new Person("Kol");
 //
-//        rep.createPerson(new Person("Valera"));
-
-
+//        System.out.println(rep.searchByObject(person));
     }
 }

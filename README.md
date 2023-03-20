@@ -8,4 +8,4 @@
 - определить основные интерфейсы в модулях
 
 
-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 - token
+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 - token

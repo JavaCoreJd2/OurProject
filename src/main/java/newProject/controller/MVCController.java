@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpRequest;
 import java.util.List;
 
+//for jsp
 @Controller
 public class MVCController {
-
     @Autowired
     PersonRep personRep;
 //
@@ -127,6 +127,12 @@ public class MVCController {
 
         return new ResponseEntity(person1, HttpStatus.OK);
     }
+
+    @RequestMapping("/show")
+    public String show(){
+        return "hello";
+    }
+
 
 
 
